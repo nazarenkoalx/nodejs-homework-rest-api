@@ -42,6 +42,11 @@ class UserServices {
     const user = await User.findByIdAndUpdate(id, { subscription });
     return user;
   }
+
+  async updateUserAvatar(id, avatarURL) {
+    const user = await User.findByIdAndUpdate(id, { avatarURL });
+    return user;
+  }
 }
 
 module.exports = new UserServices();

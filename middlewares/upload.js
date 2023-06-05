@@ -18,7 +18,6 @@ const limits = {
 const fileFilter = (req, file, cb) => {
   const { mimetype } = file;
   const [type] = mimetype.split("/");
-  console.log(typeof type);
   if (type !== "image") {
     cb(HttpError(400, "File can have only .jpg or .png extension"), false);
   }

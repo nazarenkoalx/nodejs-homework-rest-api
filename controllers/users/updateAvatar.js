@@ -9,9 +9,9 @@ const updateAvatar = asyncHandler(async (req, res) => {
     throw HttpError(401);
   }
   const avatarURL = await createAvatarPath(req.file, email);
-  const reuslt = await UserServices.updateUserAvatar(id, avatarURL);
+  await UserServices.updateUserAvatar(id, avatarURL);
   const responseMessage = {
-    avatarURL: reuslt.avatarURL,
+    avatarURL,
   };
   res.status(200).json({ status: 200, message: responseMessage });
 });

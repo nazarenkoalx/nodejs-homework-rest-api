@@ -24,10 +24,6 @@ const createAvatarPath = async (file, useremail) => {
   await fs.rename(tempPath, newPath);
   const avatarURL = path.join("avatars", newAvatarFilename);
   optimiseAvatar(newPath);
-  // await Jimp.read(newPath, (err, image) => {
-  //   if (err) throw err;
-  //   image.resize(250, 250).write(newPath);
-  // });
   return avatarURL;
 };
 

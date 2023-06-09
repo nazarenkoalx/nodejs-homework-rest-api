@@ -1,8 +1,10 @@
 const { User } = require("../models");
+const { createAvatarURL } = require("../helpers");
 
 class UserServices {
   async register(email, password) {
-    const result = await User.create({ email, password });
+    const avatarURL = createAvatarURL(email);
+    const result = await User.create({ email, password, avatarURL });
     if (!result) {
       return null;
     }
@@ -38,6 +40,11 @@ class UserServices {
 
   async updateSubscriptionPlan(id, subscription) {
     const user = await User.findByIdAndUpdate(id, { subscription });
+    return user;
+  }
+
+  async updateUserAvatar(id, avatarURL) {
+    const user = await User.findByIdAndUpdate(id, { avatarURL });
     return user;
   }
 }

@@ -13,7 +13,6 @@ const register = asyncHandler(async (req, res) => {
   }
   const { email, password: pass } = req.body;
   const userCheck = await UserServices.findUser(email);
-  console.log(userCheck);
   if (userCheck !== null) {
     throw HttpError(409, "Email in use");
   }

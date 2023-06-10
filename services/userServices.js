@@ -52,6 +52,19 @@ class UserServices {
     const user = await User.findByIdAndUpdate(id, { avatarURL });
     return user;
   }
+
+  async userForVerify(verificationToken) {
+    const user = await User.findOne({ verificationToken });
+    return user;
+  }
+
+  async userEmailVerification(id) {
+    const user = await User.findByIdAndUpdate(id, {
+      verificationToken: null,
+      verify: true,
+    });
+    return user;
+  }
 }
 
 module.exports = new UserServices();

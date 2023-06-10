@@ -13,6 +13,9 @@ const resendVerifyEmail = asyncHandler(async (req, res) => {
     throw HttpError(400, "missing required field email");
   }
   const user = await UserServices.findUser(email);
+  if (!user) {
+    throw HttpError(400, "no user found");
+  }
   if (user.verify || !user.verificationToken) {
     throw HttpError(400, "Verification has already been passed");
   }

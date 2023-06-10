@@ -2,9 +2,14 @@ const { User } = require("../models");
 const { createAvatarURL } = require("../helpers");
 
 class UserServices {
-  async register(email, password) {
+  async register(email, password, verificationToken) {
     const avatarURL = createAvatarURL(email);
-    const result = await User.create({ email, password, avatarURL });
+    const result = await User.create({
+      email,
+      password,
+      avatarURL,
+      verificationToken,
+    });
     if (!result) {
       return null;
     }

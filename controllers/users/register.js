@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
-const { HttpError } = require("../../helpers");
+const { HttpError, sendEmail } = require("../../helpers");
 const { userSchema } = require("../../schemas");
 const { UserServices } = require("../../services");
+const { nanoid } = require("nanoid");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -17,7 +18,22 @@ const register = asyncHandler(async (req, res) => {
     throw HttpError(409, "Email in use");
   }
   const hashedPassword = await bcrypt.hash(pass, saltRounds);
-  const result = await UserServices.register(email, hashedPassword);
+  const verificationToken = nanoid();
+  const result = await UserServices.register(
+    email,
+    hashedPassword,
+    verificationToken
+  );
+
+  const verifyEmail = {
+    to: email,
+    subject: "Email verification",
+    html: `<h1>Dear ${email}, please follow the link below to verify your email address.</h1> <br><br><br>
+    <a target="_blank" href="http://localhost:3000/users/verify/${verificationToken}">Verify email</a>`,
+  };
+
+  await sendEmail(verifyEmail);
+
   const resMesage = {
     user: {
       email: result.email,

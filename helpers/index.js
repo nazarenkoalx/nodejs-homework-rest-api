@@ -3,6 +3,7 @@ const HandleMongooseError = require("./HandleMongooseError");
 const tokenGenerator = require("./tokenGenerator");
 const createAvatarURL = require("./gravatar");
 const createAvatarPath = require("./createAvatarPath");
+const sendEmail = require("./sendEmail");
 
 module.exports = {
   HttpError,
@@ -10,4 +11,5 @@ module.exports = {
   tokenGenerator,
   createAvatarURL,
   createAvatarPath,
+  sendEmail,
 };

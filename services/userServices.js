@@ -2,9 +2,14 @@ const { User } = require("../models");
 const { createAvatarURL } = require("../helpers");
 
 class UserServices {
-  async register(email, password) {
+  async register(email, password, verificationToken) {
     const avatarURL = createAvatarURL(email);
-    const result = await User.create({ email, password, avatarURL });
+    const result = await User.create({
+      email,
+      password,
+      avatarURL,
+      verificationToken,
+    });
     if (!result) {
       return null;
     }
@@ -45,6 +50,19 @@ class UserServices {
 
   async updateUserAvatar(id, avatarURL) {
     const user = await User.findByIdAndUpdate(id, { avatarURL });
+    return user;
+  }
+
+  async userForVerify(verificationToken) {
+    const user = await User.findOne({ verificationToken });
+    return user;
+  }
+
+  async userEmailVerification(id) {
+    const user = await User.findByIdAndUpdate(id, {
+      verificationToken: null,
+      verify: true,
+    });
     return user;
   }
 }
